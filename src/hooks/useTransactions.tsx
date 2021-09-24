@@ -41,6 +41,14 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }, []);
 
   async function createTransaction(transactionInput: TransactionInput) {
+    if (
+      !transactionInput.title.length ||
+      !transactionInput.category.length ||
+      !(transactionInput.amount > 0)
+    ) {
+      return;
+    }
+
     const response = await api.post('/transactions', {
       ...transactionInput,
       createdAt: new Date(),
